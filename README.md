@@ -1,4 +1,4 @@
- # Student Grade Calculator
+    # Student Grade Calculator
 
 A simple Python application that calculates a student's average grade
 from three exam scores and determines whether the student passed or failed.
