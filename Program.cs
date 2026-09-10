@@ -92,7 +92,7 @@ Console.WriteLine("Thank you for using Student Grade Calculator!");
 static bool IsExitCommand(string? input) =>
     string.Equals(input?.Trim(), "exit", StringComparison.OrdinalIgnoreCase);
 
-static string GetLetterGrade(double average) =>
+'''static string GetLetterGrade(double average) =>
     average switch
     {
         >= 90 => "A",
@@ -101,3 +101,4 @@ static string GetLetterGrade(double average) =>
         >= 60 => "D",
         _ => "F"
     };
+'''
