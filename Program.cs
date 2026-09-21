@@ -1,104 +1,43 @@
-using System.Globalization;
+Console.WriteLine("Student Grade Calculator");
 
-Console.WriteLine("==========================================");
-Console.WriteLine("       C# Student Grade Calculator");
-Console.WriteLine("==========================================");
-Console.WriteLine();
+Console.Write("Enter student name: ");
+string studentName = Console.ReadLine();
 
-Console.Write("Enter student name (or type 'exit' to quit): ");
-string? studentName = Console.ReadLine();
+List<double> grades = new List<double>();
 
-if (IsExitCommand(studentName))
+Console.Write("How many grades do you want to enter? ");
+int count = Convert.ToInt32(Console.ReadLine());
+
+for (int i = 0; i < count; i++)
 {
-    Console.WriteLine("Program exited. Goodbye!");
-    return;
+    Console.Write("Enter grade: ");
+    double grade = Convert.ToDouble(Console.ReadLine());
+
+    grades.Add(grade);
 }
 
-while (string.IsNullOrWhiteSpace(studentName))
-{
-    Console.Write("Student name cannot be empty. Enter a name: ");
-    studentName = Console.ReadLine();
+double total = 0;
 
-    if (IsExitCommand(studentName))
-    {
-        Console.WriteLine("Program exited. Goodbye!");
-        return;
-    }
+foreach (double grade in grades)
+{
+    total += grade;
 }
 
-var grades = new List<double>();
+// Intentional mistake: divides by count + 1
+double average = total / (count + 1);
 
-Console.WriteLine();
-Console.WriteLine("Enter course grades from 0 to 100.");
-Console.WriteLine("Type 'exit' at any time to finish the program.");
-Console.WriteLine();
+string result;
 
-while (true)
+if (average >= 60)
 {
-    Console.Write($"Enter grade {grades.Count + 1}: ");
-    string? input = Console.ReadLine();
-
-    if (IsExitCommand(input))
-    {
-        Console.WriteLine("Program exited. Goodbye!");
-        return;
-    }
-
-    if (double.TryParse(input, NumberStyles.Float, CultureInfo.InvariantCulture, out double grade) &&
-        grade >= 0 && grade <= 100)
-    {
-        grades.Add(grade);
-        Console.WriteLine($"Grade {grade:0.##} added successfully.");
-
-        Console.Write("Add another grade? (yes/no): ");
-        string? answer = Console.ReadLine();
-
-        if (IsExitCommand(answer))
-        {
-            Console.WriteLine("Program exited. Goodbye!");
-            return;
-        }
-
-        if (!string.Equals(answer?.Trim(), "yes", StringComparison.OrdinalIgnoreCase))
-            break;
-    }
-    else
-    {
-        Console.WriteLine("Invalid grade. Please enter a number between 0 and 100.");
-    }
+    result = "Passed";
+}
+else
+{
+    result = "Failed";
 }
 
-if (grades.Count == 0)
-{
-    Console.WriteLine("No grades were entered. Nothing to calculate.");
-    return;
-}
-
-double average = grades.Average();
-string letterGrade = GetLetterGrade(average);
-
 Console.WriteLine();
-Console.WriteLine("==========================================");
-Console.WriteLine("              GRADE RESULT");
-Console.WriteLine("==========================================");
-Console.WriteLine($"Student : {studentName!.Trim()}");
-Console.WriteLine($"Grades  : {string.Join(", ", grades.Select(g => g.ToString("0.##", CultureInfo.InvariantCulture)))}");
-Console.WriteLine($"Average : {average:0.00}");
-Console.WriteLine($"Grade   : {letterGrade}");
-Console.WriteLine("==========================================");
-Console.WriteLine();
-Console.WriteLine("Thank you for using Student Grade Calculator!");
-
-static bool IsExitCommand(string? input) =>
-    string.Equals(input?.Trim(), "exit", StringComparison.OrdinalIgnoreCase);
-
-static string GetLetterGrade(double average) =>
-    average switch
-    {
-        >= 90 => "A",
-        >= 80 => "B",
-        >= 70 => "C",
-        >= 60 => "D",
-        _ => "F"
-    };
-
+Console.WriteLine("Student: " + studentName);
+Console.WriteLine("Average: " + average);
+Console.WriteLine("Result: " + result);
